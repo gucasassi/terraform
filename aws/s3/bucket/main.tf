@@ -1,10 +1,16 @@
+# Generates a random ID to be used as a suffix for the S3 bucket name.
+resource "random_id" "bucket_suffix" {
+  count       = var.add_random_suffix ? 1 : 0
+  byte_length = 5
+}
+
 # Provides a S3 bucket resource.
 resource "aws_s3_bucket" "this" {
 
-  bucket = var.bucket_name
+  bucket = local.name
 
   tags = {
-    "Name" = var.bucket_name
+    "Name" = local.name
   }
 
 }
