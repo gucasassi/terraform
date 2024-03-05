@@ -7,7 +7,8 @@ variable "attributes" {
   description = "A list of maps specifying the name and type for each attribute in the DynamoDB table."
   type        = list(map(string))
   default = [{
-    "S" = "LockID"
+    type = "S"
+    name = "LockID"
   }]
 }
 
