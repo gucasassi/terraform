@@ -7,6 +7,7 @@ resource "random_id" "this" {
 module "s3-bucket" {
 
   source            = "../s3-bucket"
+  
   bucket_name       = local.remote_name
   add_random_suffix = false
 
@@ -14,8 +15,6 @@ module "s3-bucket" {
 
 # Create a Dynamodb table for tfstate locking.
 module "dynamodb" {
-
   source     = "../dynamodb"
   table_name = "${local.remote_name}-locking"
-
 }
