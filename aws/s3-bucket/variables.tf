@@ -8,3 +8,9 @@ variable "add_random_suffix" {
   type        = bool
   default     = true
 }
+
+variable "public_access" {
+  description = "Set to true to make the bucket public, false to keep it private."
+  type        = bool
+  default     = false
+}

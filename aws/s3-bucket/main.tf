@@ -33,7 +33,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
 # see: https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html
 resource "aws_s3_bucket_acl" "this" {
 
-  acl        = "private"
+  # Set ACL based on the value of the public_access variable
+  acl = var.public_access ? "public-read" : "private"
+
   bucket     = aws_s3_bucket.this.id
   depends_on = [aws_s3_bucket_ownership_controls.this]
 
@@ -69,9 +71,32 @@ resource "aws_s3_bucket_public_access_block" "this" {
 
   bucket = aws_s3_bucket.this.id
 
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls       = var.public_access ? false : true
+  block_public_policy     = var.public_access ? false : true
+  ignore_public_acls      = var.public_access ? false : true
+  restrict_public_buckets = var.public_access ? false : true
 
 }
+
+# Define an S3 bucket policy to allow access to the bucket.
+resource "aws_s3_bucket_policy" "public_access" {
+
+  count = var.public_access ? 1 : 0
+
+  bucket = aws_s3_bucket.this.id
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect    = "Allow",
+        Principal = "*",
+        Action    = "s3:GetObject",
+        Resource  = "${aws_s3_bucket.this.arn}/*"
+      }
+    ]
+  })
+
+  depends_on = [aws_s3_bucket.this, aws_s3_bucket_acl.this]
+
+}
+
