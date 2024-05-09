@@ -1,0 +1,39 @@
+# Ignore local .terraform directories
+**/.terraform/*
+
+# Ignore Terraform lock file
+.terraform.lock.hcl
+
+# Ignore Terraform state files
+# These files contain the state of your infrastructure managed by Terraform.
+# They may contain sensitive information and are subject to frequent changes.
+*.tfstate
+*.tfstate.*
+
+# Ignore crash log files
+# Ignore any crash log files generated during Terraform operations.
+crash.log
+
+# Ignore .tfvars files
+# .tfvars files often contain sensitive data such as passwords, private keys,
+# and other secrets. It's recommended not to version them to prevent exposing
+# sensitive information.
+*.tfvars
+
+# Ignore override files
+# Override files are used to locally modify resources and are not meant to be
+# versioned. They might contain configurations specific to local environments.
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+# Ignore Terraform CLI configuration files, which are specific to individual users
+# or environments and should not be versioned.
+.terraformrc
+terraform.rc
+
+# Ignore zip files
+# Ignore any zip files that might be generated during the course of operations.
+# These are often temporary and do not need to be version
